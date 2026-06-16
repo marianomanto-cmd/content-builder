@@ -5,9 +5,9 @@
 > `SessionStart`) y continúa desde **Próximos pasos**.
 > **Regla de oro:** commit + push después de CADA paso con sentido.
 
-**Última actualización:** 2026-06-16 ~13:00 UTC
-**Branch:** `claude/confident-bell-bza3fl` (mergeada a `main` por FF)
-**Estado:** 🟢 9 pantallas + Supabase. Branch mergeada a `main` → deploy de **PRODUCCIÓN** en curso en Vercel.
+**Última actualización:** 2026-06-16 ~13:15 UTC
+**Branch:** `claude/confident-bell-bza3fl` (mergeada a `main`)
+**Estado:** 🟢 9 pantallas + Supabase. **Producción LIVE y verificada** en `content-builder-weld.vercel.app` (servía 404 por framework preset null → fix con `vercel.json`).
 
 ---
 
@@ -50,7 +50,13 @@ Motion · cmdk · sonner · vaul · dnd-kit · Embla · Lucide · Supabase. Font
 1. `git pull origin claude/confident-bell-bza3fl` · `npm install` si falta `node_modules`.
 2. Leer este archivo + `handoff/SCREENS.md`. `npm run build` antes de pushear. Commit + push siempre.
 
+## ⚠️ Nota: Deployment Protection
+El dominio de producción devuelve **403 a visitantes anónimos** porque el proyecto tiene
+**Vercel Authentication** (Deployment Protection) activado. El dueño (logueado en Vercel) ve la
+app normal. Para hacerla pública: Project Settings → Deployment Protection → desactivar.
+
 ## 📓 Bitácora (reciente arriba)
+- **2026-06-16 ~13:15 UTC** — 404 en prod diagnosticado: `framework: null` en el proyecto → Vercel deployaba sin el adapter de Next (404 de plataforma en toda ruta). Fix: `vercel.json` `{framework:nextjs}`. Verificado en preview (app real) → con OK del usuario, FF de `main` a `9b56320`. Prod rebuild READY y **verificada sirviendo la app** (`/marcas` 54k de HTML real, sin x-vercel-error).
 - **2026-06-16 ~13:00 UTC** — Usuario autorizó merge a `main`. Fast-forward `23e1fb3..52dbf73` pusheado a `main`. Deploy de producción disparado (Vercel git integration).
 - **2026-06-16 ~05:10 UTC** — 9 pantallas + Supabase + 404 + README. Confirmado deploy preview vivo por integración git. Pendiente: env en Vercel + promover a prod (con OK del usuario).
 - **2026-06-16 ~04:40 UTC** — Foundation: design system + chrome + Marcas. Build limpio.
