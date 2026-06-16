@@ -5,9 +5,10 @@ import { toast } from "sonner";
 import { PageHeader } from "@/components/chrome/page-header";
 import { Button } from "@/components/ui/button";
 import { AddBrandTile, BrandCard } from "@/components/domain/brand-card";
-import { BRANDS } from "@/lib/brands";
+import { useBrand } from "@/lib/brand-context";
 
 export default function MarcasPage() {
+  const { brands } = useBrand();
   const addBrand = () =>
     toast("Nueva marca", {
       description: "El flujo de onboarding de marca llega pronto.",
@@ -32,7 +33,7 @@ export default function MarcasPage() {
       />
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {BRANDS.map((brand) => (
+        {brands.map((brand) => (
           <BrandCard key={brand.id} brand={brand} />
         ))}
         <AddBrandTile onClick={addBrand} />

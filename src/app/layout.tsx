@@ -3,6 +3,7 @@ import { Geist, JetBrains_Mono, Newsreader } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { AppShell } from "@/components/chrome/app-shell";
+import { getBrands } from "@/lib/queries";
 
 const sans = Geist({
   subsets: ["latin"],
@@ -36,9 +37,10 @@ export const viewport: Viewport = {
   themeColor: "#0a0810",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const brands = await getBrands();
   return (
     <html
       lang="es"
@@ -46,7 +48,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body>
-        <Providers>
+        <Providers brands={brands}>
           <AppShell>{children}</AppShell>
         </Providers>
       </body>

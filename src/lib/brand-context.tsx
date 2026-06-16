@@ -7,7 +7,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { BRANDS, DEFAULT_BRAND_ID, getBrand, type Brand } from "./brands";
+import { BRANDS, type Brand } from "./brands";
 
 interface BrandContextValue {
   brand: Brand;
@@ -19,20 +19,26 @@ interface BrandContextValue {
 const BrandContext = createContext<BrandContextValue | null>(null);
 const STORAGE_KEY = "cb.activeBrand";
 
-export function BrandProvider({ children }: { children: React.ReactNode }) {
-  const [brandId, setBrandIdState] = useState<string>(DEFAULT_BRAND_ID);
+export function BrandProvider({
+  brands = BRANDS,
+  children,
+}: {
+  brands?: Brand[];
+  children: React.ReactNode;
+}) {
+  const [brandId, setBrandIdState] = useState<string>(brands[0]?.id ?? "lumen");
 
   // Hydrate persisted selection
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved && BRANDS.some((b) => b.id === saved)) setBrandIdState(saved);
+      if (saved && brands.some((b) => b.id === saved)) setBrandIdState(saved);
     } catch {
       /* ignore */
     }
-  }, []);
+  }, [brands]);
 
-  const brand = getBrand(brandId);
+  const brand = brands.find((b) => b.id === brandId) ?? brands[0];
 
   // Re-theme the whole document (incl. portals) when the brand changes
   useEffect(() => {
@@ -51,7 +57,7 @@ export function BrandProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <BrandContext.Provider value={{ brand, brandId, setBrandId, brands: BRANDS }}>
+    <BrandContext.Provider value={{ brand, brandId, setBrandId, brands }}>
       {children}
     </BrandContext.Provider>
   );

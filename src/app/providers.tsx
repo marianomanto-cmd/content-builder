@@ -2,10 +2,17 @@
 
 import { Toaster } from "sonner";
 import { BrandProvider } from "@/lib/brand-context";
+import { type Brand } from "@/lib/brands";
 
-export function Providers({ children }: { children: React.ReactNode }) {
+export function Providers({
+  brands,
+  children,
+}: {
+  brands?: Brand[];
+  children: React.ReactNode;
+}) {
   return (
-    <BrandProvider>
+    <BrandProvider brands={brands}>
       {children}
       <Toaster
         position="bottom-right"
