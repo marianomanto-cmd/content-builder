@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Content Builder
 
-## Getting Started
+App web interna, **dark-first**, para un marketer que maneja varias marcas y
+produce anuncios de imagen y video con IA. Construida 1:1 a partir del handoff de
+diseño (`handoff/`): estética Linear / Vercel / Raycast, chrome neutro near-black
+plum con un único acento sangría, y color de marca por workspace.
 
-First, run the development server:
+## Stack
+
+- **Next.js 16** (App Router) · **React 19** · **TypeScript**
+- **Tailwind CSS v4** (tokens del handoff portados a `@theme` + CSS vars)
+- **shadcn-style primitives** sobre **Radix** · **Motion** · **cmdk** (⌘K) ·
+  **sonner** (toasts) · **vaul** (drawers) · **dnd-kit** · **Embla** · **Lucide**
+- Fuentes: **Newsreader** (serif editorial), **Geist** (UI), **JetBrains Mono** (data)
+- **Supabase** para las marcas (lectura pública con RLS), con fallback estático
+
+## Pantallas
+
+`/marcas` · `/dashboard` · `/studio` · `/biblioteca` · `/outputs` ·
+`/calendario` · `/sistema` · `/settings` — más el chrome global (sidebar, topbar
+con brand switcher, command palette ⌘K, tab bar mobile).
+
+## Desarrollo
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # opcional: setear Supabase
+npm run dev                  # http://localhost:3000
+npm run build                # build de producción
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Sin las variables de Supabase, la app usa las marcas estáticas incluidas y
+funciona igual.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Variables de entorno
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Descripción |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | URL del proyecto Supabase |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Publishable/anon key (segura para el cliente) |
 
-## Learn More
+## Estructura
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+  app/                 rutas (una por pantalla) + layout + globals.css
+  components/
+    ui/                primitivas re-estiladas (Button, Badge, Card, …)
+    chrome/            AppShell, Sidebar, Topbar, BrandSelector, CommandPalette
+    domain/            BrandCard, BrandTile, Vortex, Studio/Calendar/Ideas, …
+  lib/
+    brands.ts          modelo + datos estáticos de las 6 marcas
+    data.ts            generadores mock (outputs, assets, eventos, ideas, copys)
+    brand-context.tsx  re-theming de marca en vivo
+    queries.ts         getBrands() (Supabase + fallback)
+    supabase/          cliente server
+handoff/               diseño de referencia (specs + screenshots + tokens)
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Diseño
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Los tokens exactos (color, tipografía, espaciado, radios, sombras, glow, motion)
+están en `src/app/globals.css`, portados de `handoff/DESIGN-SYSTEM.md`. El acento
+sangría (`--accent`) es global y fijo; cada marca aporta `--brand` / `--brand-2`
+que re-contextualizan todo el contenido al cambiar de workspace.
