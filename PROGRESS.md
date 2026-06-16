@@ -55,7 +55,18 @@ El dominio de producción devuelve **403 a visitantes anónimos** porque el proy
 **Vercel Authentication** (Deployment Protection) activado. El dueño (logueado en Vercel) ve la
 app normal. Para hacerla pública: Project Settings → Deployment Protection → desactivar.
 
+## 🧩 Features nuevas (post-launch) + env requeridas
+- **Editor del sistema de diseño** (`/sistema`): paleta + voz editables, re-theming en vivo. Persistencia: localStorage (siempre) + Supabase best-effort (RLS update). Funciona sin env.
+- **Stock media gratis**: `lib/media.ts` (Picsum fotos + Google sample videos). `BrandTile` muestra fotos con tinte de marca + video en hover. Sin env, sin costo.
+- **Importar ZIP → motor Claude** (`/api/import-design`): unzip + `claude-opus-4-8` (tool use) → tokens del sistema de diseño aplicados a la marca. **Requiere `ANTHROPIC_API_KEY` en Vercel** (tiene costo de API).
+
+| Env var (Vercel) | Para qué | Bloqueante? |
+|---|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Persistir marcas/ediciones cross-device | No (hay fallback) |
+| `ANTHROPIC_API_KEY` | Habilitar "Importar ZIP" (motor Claude) | Sí para esa feature (501 sin ella) |
+
 ## 📓 Bitácora (reciente arriba)
+- **2026-06-16 ~13:25 UTC** — 3 features pedidas por el usuario: editor del sistema de diseño (paleta+voz, persistencia local+Supabase), stock media gratis (Picsum+videos sample), e importar ZIP interpretado por `claude-opus-4-8`. Build limpio, pusheadas a la branch.
 - **2026-06-16 ~13:15 UTC** — 404 en prod diagnosticado: `framework: null` en el proyecto → Vercel deployaba sin el adapter de Next (404 de plataforma en toda ruta). Fix: `vercel.json` `{framework:nextjs}`. Verificado en preview (app real) → con OK del usuario, FF de `main` a `9b56320`. Prod rebuild READY y **verificada sirviendo la app** (`/marcas` 54k de HTML real, sin x-vercel-error).
 - **2026-06-16 ~13:00 UTC** — Usuario autorizó merge a `main`. Fast-forward `23e1fb3..52dbf73` pusheado a `main`. Deploy de producción disparado (Vercel git integration).
 - **2026-06-16 ~05:10 UTC** — 9 pantallas + Supabase + 404 + README. Confirmado deploy preview vivo por integración git. Pendiente: env en Vercel + promover a prod (con OK del usuario).
