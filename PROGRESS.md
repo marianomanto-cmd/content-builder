@@ -5,9 +5,9 @@
 > `SessionStart`) y continúa desde **Próximos pasos**.
 > **Regla de oro:** commit + push después de CADA paso con sentido.
 
-**Última actualización:** 2026-06-16 ~05:10 UTC
-**Branch:** `claude/confident-bell-bza3fl`
-**Estado:** 🟢 Las 9 pantallas construidas y compilando. Supabase wireado. App **deployada en Vercel** (preview por integración git).
+**Última actualización:** 2026-06-16 ~13:00 UTC
+**Branch:** `claude/confident-bell-bza3fl` (mergeada a `main` por FF)
+**Estado:** 🟢 9 pantallas + Supabase. Branch mergeada a `main` → deploy de **PRODUCCIÓN** en curso en Vercel.
 
 ---
 
@@ -51,6 +51,7 @@ Motion · cmdk · sonner · vaul · dnd-kit · Embla · Lucide · Supabase. Font
 2. Leer este archivo + `handoff/SCREENS.md`. `npm run build` antes de pushear. Commit + push siempre.
 
 ## 📓 Bitácora (reciente arriba)
+- **2026-06-16 ~13:00 UTC** — Usuario autorizó merge a `main`. Fast-forward `23e1fb3..52dbf73` pusheado a `main`. Deploy de producción disparado (Vercel git integration).
 - **2026-06-16 ~05:10 UTC** — 9 pantallas + Supabase + 404 + README. Confirmado deploy preview vivo por integración git. Pendiente: env en Vercel + promover a prod (con OK del usuario).
 - **2026-06-16 ~04:40 UTC** — Foundation: design system + chrome + Marcas. Build limpio.
 - **2026-06-16 ~04:02 UTC** — Handoff llegó por upload. Inspeccionado y procesado.
