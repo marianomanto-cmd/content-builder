@@ -25,14 +25,19 @@ const KINDS: { id: OutputKind | "all"; label: string }[] = [
 function OutputTile({ o }: { o: OutputItem }) {
   return (
     <div className="group flex flex-col gap-1.5">
-      <BrandTile ratio={o.ratio} seed={o.id} className="w-full transition-transform group-hover:-translate-y-0.5">
+      <BrandTile
+        ratio={o.ratio}
+        seed={o.id}
+        video={o.kind === "video"}
+        className="w-full transition-transform group-hover:-translate-y-0.5"
+      >
         <span
-          className="absolute left-2 top-2 h-2.5 w-2.5 rounded-full ring-2 ring-black/20"
+          className="absolute left-2 top-2 z-10 h-2.5 w-2.5 rounded-full ring-2 ring-black/20"
           style={{ background: PLATFORM_VAR[o.platform] }}
           title={PLATFORM_LABEL[o.platform]}
         />
         {o.kind === "video" && (
-          <span className="pointer-events-none absolute inset-0 grid place-items-center">
+          <span className="pointer-events-none absolute inset-0 grid place-items-center transition-opacity duration-200 group-hover:opacity-0">
             <span className="grid h-10 w-10 place-items-center rounded-full bg-black/45 text-white backdrop-blur-sm">
               <Play className="h-4 w-4 translate-x-px fill-white" strokeWidth={0} />
             </span>

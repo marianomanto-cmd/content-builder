@@ -1,40 +1,78 @@
+"use client";
+
+import { useRef, useState } from "react";
 import { RATIO_DIMS, type Ratio } from "@/lib/brands";
-import { cn, seeded } from "@/lib/utils";
+import { stockPhoto, stockVideo } from "@/lib/media";
+import { cn } from "@/lib/utils";
 
 /**
- * A brand-tinted gradient surface — stands in for generated imagery.
- * Pulls from --brand / --brand-2 so it re-themes with the active workspace.
+ * A media tile backed by free stock photos (and optional hover-play video),
+ * with a subtle brand wash so each workspace's color still comes through.
  */
 export function BrandTile({
-  ratio,
+  ratio = "1:1",
   seed = "",
+  video = false,
+  tint = true,
   className,
   children,
 }: {
   ratio?: Ratio;
   seed?: string;
+  video?: boolean;
+  tint?: boolean;
   className?: string;
   children?: React.ReactNode;
 }) {
-  const px = 18 + Math.floor(seeded(seed + "x") * 64);
-  const py = 14 + Math.floor(seeded(seed + "y") * 60);
-  const angle = Math.floor(seeded(seed + "a") * 360);
+  const [active, setActive] = useState(false);
+  const vref = useRef<HTMLVideoElement>(null);
+
+  const onEnter = () => {
+    if (!video) return;
+    setActive(true);
+    vref.current?.play().catch(() => {});
+  };
+  const onLeave = () => {
+    if (!video) return;
+    setActive(false);
+    vref.current?.pause();
+  };
+
   return (
     <div
-      className={cn("relative overflow-hidden rounded-md", className)}
-      style={{
-        aspectRatio: ratio
-          ? `${RATIO_DIMS[ratio].w} / ${RATIO_DIMS[ratio].h}`
-          : undefined,
-        background: `radial-gradient(120% 120% at ${px}% ${py}%, color-mix(in srgb, var(--brand) 82%, white 8%), var(--brand-2) 98%)`,
-      }}
+      className={cn("relative overflow-hidden rounded-md bg-surface-2", className)}
+      style={{ aspectRatio: `${RATIO_DIMS[ratio].w} / ${RATIO_DIMS[ratio].h}` }}
+      onMouseEnter={onEnter}
+      onMouseLeave={onLeave}
     >
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background: `linear-gradient(${angle}deg, transparent, color-mix(in srgb, var(--brand-2) 55%, transparent))`,
-        }}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={stockPhoto(seed, ratio)}
+        alt=""
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 h-full w-full object-cover"
       />
+      {video && (
+        <video
+          ref={vref}
+          src={stockVideo(seed)}
+          muted
+          loop
+          playsInline
+          preload="none"
+          className={cn(
+            "absolute inset-0 h-full w-full object-cover transition-opacity duration-300",
+            active ? "opacity-100" : "opacity-0",
+          )}
+        />
+      )}
+      {tint && (
+        <div
+          className="pointer-events-none absolute inset-0 opacity-40 mix-blend-soft-light"
+          style={{ background: "linear-gradient(140deg, var(--brand), var(--brand-2))" }}
+        />
+      )}
       {children}
     </div>
   );

@@ -172,8 +172,13 @@ export default function DashboardPage() {
           <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
             {outputs.map((o) => (
               <div key={o.id} className="flex flex-col gap-1.5">
-                <BrandTile ratio="1:1" seed={o.id} className="w-full">
-                  <span className="absolute right-1.5 top-1.5 rounded bg-black/45 px-1.5 py-0.5 font-mono text-[0.5rem] text-white/90 backdrop-blur-sm">
+                <BrandTile
+                  ratio="1:1"
+                  seed={o.id}
+                  video={o.kind === "video"}
+                  className="w-full"
+                >
+                  <span className="absolute right-1.5 top-1.5 z-10 rounded bg-black/45 px-1.5 py-0.5 font-mono text-[0.5rem] text-white/90 backdrop-blur-sm">
                     {o.ratio}
                   </span>
                 </BrandTile>

@@ -8,7 +8,12 @@ import { type AssetItem } from "@/lib/data";
 export function AssetTile({ asset }: { asset: AssetItem }) {
   return (
     <div className="group flex cursor-grab flex-col gap-1.5 active:cursor-grabbing">
-      <BrandTile ratio={asset.ratio} seed={asset.id} className="w-full transition-transform group-hover:-translate-y-0.5">
+      <BrandTile
+        ratio={asset.ratio}
+        seed={asset.id}
+        video={asset.isVideo}
+        className="w-full transition-transform group-hover:-translate-y-0.5"
+      >
         <Badge tone="glass" className="absolute left-2 top-2">
           {asset.pillar}
         </Badge>
@@ -21,7 +26,7 @@ export function AssetTile({ asset }: { asset: AssetItem }) {
           </span>
         )}
         {asset.isVideo && (
-          <span className="pointer-events-none absolute inset-0 grid place-items-center">
+          <span className="pointer-events-none absolute inset-0 grid place-items-center transition-opacity duration-200 group-hover:opacity-0">
             <span className="grid h-10 w-10 place-items-center rounded-full bg-black/45 text-white backdrop-blur-sm">
               <Play className="h-4 w-4 translate-x-px fill-white" strokeWidth={0} />
             </span>
