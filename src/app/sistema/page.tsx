@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Check, Pencil, Plus, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Check, Loader2, Pencil, Plus, Upload, X } from "lucide-react";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/chrome/page-header";
 import { Button } from "@/components/ui/button";
@@ -105,11 +105,42 @@ export default function SistemaPage() {
   const [tokens, setTokens] = useState<BrandTokens>(brand.tokens);
   const [doList, setDoList] = useState<string[]>(brand.voice.do);
   const [avoidList, setAvoidList] = useState<string[]>(brand.voice.avoid);
+  const [importing, setImporting] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   // Reset any in-progress edit when switching brand
   useEffect(() => {
     setEditing(false);
   }, [brand.id]);
+
+  const onImportZip = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    setImporting(true);
+    const tid = toast.loading(`Interpretando ${file.name} con el motor de Claude…`);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/import-design", { method: "POST", body: fd });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "No se pudo importar el ZIP");
+      updateBrand(brand.id, {
+        tokens: data.tokens,
+        brand: data.tokens.accent,
+        brand2: data.tokens.primary,
+        tagline: data.tagline ?? brand.tagline,
+        voice: data.voice ?? brand.voice,
+        ...(data.name ? { name: data.name } : {}),
+        ...(data.category ? { category: data.category } : {}),
+      });
+      toast.success(`Sistema de diseño importado para ${data.name ?? brand.name}`, { id: tid });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Error al importar", { id: tid });
+    } finally {
+      setImporting(false);
+    }
+  };
 
   const startEdit = () => {
     setTokens(brand.tokens);
@@ -162,10 +193,32 @@ export default function SistemaPage() {
               </Button>
             </>
           ) : (
-            <Button variant="outline" className="gap-1.5" onClick={startEdit}>
-              <Pencil className="h-3.5 w-3.5" strokeWidth={2} />
-              Editar
-            </Button>
+            <>
+              <input
+                ref={fileRef}
+                type="file"
+                accept=".zip,application/zip"
+                onChange={onImportZip}
+                className="hidden"
+              />
+              <Button
+                variant="outline"
+                className="gap-1.5"
+                disabled={importing}
+                onClick={() => fileRef.current?.click()}
+              >
+                {importing ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                ) : (
+                  <Upload className="h-3.5 w-3.5" strokeWidth={2} />
+                )}
+                Importar ZIP
+              </Button>
+              <Button variant="outline" className="gap-1.5" onClick={startEdit}>
+                <Pencil className="h-3.5 w-3.5" strokeWidth={2} />
+                Editar
+              </Button>
+            </>
           )
         }
       />
