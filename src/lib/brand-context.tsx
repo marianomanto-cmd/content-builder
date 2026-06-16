@@ -17,6 +17,7 @@ interface BrandContextValue {
   setBrandId: (id: string) => void;
   brands: Brand[];
   updateBrand: (id: string, patch: Partial<Brand>) => void;
+  addBrand: (brand: Brand) => void;
 }
 
 const BrandContext = createContext<BrandContextValue | null>(null);
@@ -76,9 +77,13 @@ export function BrandProvider({
     persistBrand(id, patch); // best-effort cross-device when Supabase is configured
   }, []);
 
+  const addBrand = useCallback((b: Brand) => {
+    setBrands((cur) => (cur.some((x) => x.id === b.id) ? cur : [...cur, b]));
+  }, []);
+
   return (
     <BrandContext.Provider
-      value={{ brand, brandId, setBrandId, brands, updateBrand }}
+      value={{ brand, brandId, setBrandId, brands, updateBrand, addBrand }}
     >
       {children}
     </BrandContext.Provider>

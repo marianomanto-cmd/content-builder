@@ -37,6 +37,10 @@ export const viewport: Viewport = {
   themeColor: "#0a0810",
 };
 
+// Brands are read live from Supabase per request so newly created clients
+// appear on reload (not baked at build time).
+export const dynamic = "force-dynamic";
+
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {

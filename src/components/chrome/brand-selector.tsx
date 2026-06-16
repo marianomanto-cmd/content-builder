@@ -1,8 +1,8 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { Check, ChevronDown, Plus } from "lucide-react";
-import { toast } from "sonner";
 import { useBrand } from "@/lib/brand-context";
 import { cn } from "@/lib/utils";
 
@@ -40,6 +40,7 @@ export function BrandMono({
 
 export function BrandSelector() {
   const { brand, brands, setBrandId } = useBrand();
+  const router = useRouter();
 
   return (
     <DropdownMenu.Root>
@@ -88,7 +89,7 @@ export function BrandSelector() {
           })}
           <DropdownMenu.Separator className="my-1.5 h-px bg-[var(--border)]" />
           <DropdownMenu.Item
-            onSelect={() => toast("Nueva marca", { description: "El onboarding de marca llega pronto." })}
+            onSelect={() => router.push("/marcas?new=1")}
             className="flex cursor-pointer items-center gap-3 rounded-md px-2 py-2 text-muted outline-none transition-colors data-[highlighted]:bg-surface-2 data-[highlighted]:text-ink"
           >
             <span className="grid h-[30px] w-[30px] place-items-center rounded-[10px] border border-dashed border-hair-strong">

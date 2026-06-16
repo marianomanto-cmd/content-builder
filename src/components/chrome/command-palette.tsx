@@ -11,6 +11,7 @@ import {
   LayoutGrid,
   LibraryBig,
   Palette,
+  Plus,
   Search,
   Settings,
   Sparkles,
@@ -111,6 +112,9 @@ export function CommandPalette({
                 </Item>
                 <Item icon={LayoutGrid} onSelect={() => go("/marcas")}>
                   Marcas
+                </Item>
+                <Item icon={Plus} onSelect={() => go("/marcas?new=1")}>
+                  Nueva marca
                 </Item>
                 <Item icon={Settings} onSelect={() => go("/settings")}>
                   Settings
