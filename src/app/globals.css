@@ -1,26 +1,366 @@
 @import "tailwindcss";
 
+/* ============================================================
+ * Content Builder — Design tokens (ported 1:1 from handoff/_ds/phatia)
+ * Dark-first. Near-black plum chrome · single sangría accent ·
+ * gold reserved for data. Per-brand --brand drives content color.
+ * ========================================================== */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* === Surfaces · near-black plum === */
+  --bg: #0a0810;
+  --surface: #15131c;
+  --surface-2: #1c1924;
+  --surface-3: #241f2e;
+
+  /* === Ink · warm paper on dark === */
+  --text: #f4f1ea;
+  --text-muted: #8c8696;
+  --text-faint: #5a5563;
+
+  /* === Accent · sangría (single hot color) === */
+  --accent: #f23a5e;
+  --accent-ink: #0a0810;
+  --accent-soft: #241019;
+  --accent-glow: #ff7d9b;
+  --accent-deep: #6b1a36;
+  --accent-violet: #8a2a5f;
+
+  /* === Data / viz · gold (charts + data only) === */
+  --viz: #e0a458;
+  --viz-soft: #2a2014;
+  --viz-strong: #f0b86a;
+
+  /* === Borders · luminous hairlines === */
+  --border: rgba(244, 241, 234, 0.1);
+  --border-strong: rgba(244, 241, 234, 0.18);
+  --border-accent: color-mix(in srgb, var(--accent) 62%, transparent);
+
+  /* === Semantic states === */
+  --positive: #4fd08a;
+  --positive-soft: #102619;
+  --warn: #e0a458;
+  --negative: #f23a5e;
+
+  /* === Platform tints (dataviz / dots only) === */
+  --pf-instagram: #c13584;
+  --pf-tiktok: #25f4ee;
+  --pf-youtube: #ff0033;
+  --pf-x: #e7e9ea;
+  --pf-reddit: #ff4500;
+  --pf-facebook: #1877f2;
+  --pf-web: #8c8696;
+
+  /* === Brand (CONTENT color) — default Lumen, set per workspace === */
+  --brand: #34d399;
+  --brand-2: #0f766e;
+
+  /* === Radii === */
+  --r-xs: 3px;
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --r-xl: 20px;
+  --r-2xl: 28px;
+  --r-pill: 999px;
+
+  /* === Shadows · ambient depth on dark === */
+  --sh-1: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --sh-2: 0 2px 10px rgba(0, 0, 0, 0.5);
+  --sh-3: 0 10px 30px rgba(0, 0, 0, 0.55);
+  --sh-4: 0 20px 60px rgba(0, 0, 0, 0.65);
+  --sh-pop: 0 30px 80px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  /* === Glow · signature incandescence === */
+  --glow-accent: 0 0 24px color-mix(in srgb, var(--accent) 45%, transparent);
+  --glow-core: 0 0 48px color-mix(in srgb, var(--accent) 42%, transparent),
+    0 0 16px color-mix(in srgb, var(--accent) 60%, transparent);
+  --glow-brand: 0 0 24px color-mix(in srgb, var(--brand) 38%, transparent);
+
+  /* === Glass === */
+  --glass-fill: color-mix(in srgb, var(--surface) 64%, transparent);
+  --glass-blur: blur(14px) saturate(1.08);
+
+  /* === Motion === */
+  --ease-converge: cubic-bezier(0.7, 0.02, 0.2, 1);
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.45, 0, 0.2, 1);
+  --dur-1: 120ms;
+  --dur-2: 240ms;
+  --dur-3: 450ms;
+  --dur-4: 900ms;
+  --dur-5: 1400ms;
 }
 
+/* Map fonts (from next/font) + radius scale into Tailwind theme */
+@theme {
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif: var(--font-newsreader), Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", Menlo, monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
+
+  /* responsive switch: sidebar (desktop) ↔ bottom tab bar (mobile) */
+  --breakpoint-nav: 860px;
+}
+
+/* Map raw tokens → Tailwind color utilities (inline = follows the live var,
+ * so bg-brand / text-brand re-theme instantly when --brand changes) */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+
+  --color-ink: var(--text);
+  --color-muted: var(--text-muted);
+  --color-faint: var(--text-faint);
+
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-glow: var(--accent-glow);
+  --color-accent-deep: var(--accent-deep);
+
+  --color-viz: var(--viz);
+  --color-viz-soft: var(--viz-soft);
+  --color-viz-strong: var(--viz-strong);
+
+  --color-positive: var(--positive);
+  --color-warn: var(--warn);
+  --color-negative: var(--negative);
+
+  --color-brand: var(--brand);
+  --color-brand-2: var(--brand-2);
+
+  --color-hair: var(--border);
+  --color-hair-strong: var(--border-strong);
+
+  --color-pf-instagram: var(--pf-instagram);
+  --color-pf-tiktok: var(--pf-tiktok);
+  --color-pf-youtube: var(--pf-youtube);
+  --color-pf-x: var(--pf-x);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ============================================================
+ * Base
+ * ========================================================== */
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "cv11", "ss01";
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--accent) 32%, transparent);
+    color: var(--text);
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 99px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-faint);
+  }
+  ::placeholder {
+    color: var(--text-faint);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ============================================================
+ * Component primitives (mirrors handoff .ph-* helpers)
+ * ========================================================== */
+@layer components {
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7em;
+    line-height: 1;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: var(--glow-accent);
+    flex-shrink: 0;
+  }
+  .label-mono {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .serif {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .serif em,
+  .em-accent {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .num {
+    font-variant-numeric: tabular-nums;
+  }
+  .glass {
+    background: var(--glass-fill);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border);
+  }
+  .hairline {
+    border: 1px solid var(--border);
+  }
+  .ring-focus {
+    outline: none;
+  }
+  .ring-focus:focus-visible {
+    box-shadow: 0 0 0 1px var(--bg), 0 0 0 3px var(--border-accent);
+  }
+}
+
+/* ============================================================
+ * Ambient effects
+ * ========================================================== */
+.aurora {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(38% 44% at 22% 18%, color-mix(in srgb, var(--accent) 24%, transparent), transparent 72%),
+    radial-gradient(36% 42% at 82% 8%, color-mix(in srgb, var(--accent-violet) 28%, transparent), transparent 72%),
+    radial-gradient(34% 40% at 65% 62%, color-mix(in srgb, var(--brand) 16%, transparent), transparent 72%);
+  filter: blur(40px);
+  opacity: 0.55;
+  animation: aurora-drift 22s ease-in-out infinite;
+}
+@keyframes aurora-drift {
+  0% {
+    transform: translate3d(-4%, -3%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(4%, 3%, 0) scale(1.16);
+  }
+  100% {
+    transform: translate3d(-4%, -3%, 0) scale(1);
+  }
+}
+.scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 8, 16, 0.2) 0%,
+    rgba(10, 8, 16, 0.55) 58%,
+    rgba(10, 8, 16, 0.86) 100%
+  );
+}
+
+/* Skeleton shimmer */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-2);
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--surface-3) 90%, transparent),
+    transparent
+  );
+  animation: shimmer 1.4s infinite;
+}
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Spinner ring */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spinner {
+  border: 2px solid var(--border-strong);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Convergence reveals */
+@keyframes rise {
+  from {
+    transform: translateY(14px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes ignite {
+  from {
+    transform: scale(0.86);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+.anim-rise {
+  animation: rise var(--dur-3) var(--ease-converge) both;
+}
+.anim-ignite {
+  animation: ignite var(--dur-4) var(--ease-converge) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora,
+  .skeleton::after,
+  .anim-rise,
+  .anim-ignite {
+    animation: none;
+  }
 }
