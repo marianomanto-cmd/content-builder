@@ -1,0 +1,10 @@
+/* ============================================================
+ * Phatia · Ads & Motion Design System — GLOBAL ENTRY
+ * Consumers link THIS one file. It only @imports; no rules live here.
+ * ========================================================== */
+@import "./tokens/fonts.css";
+@import "./tokens/colors.css";
+@import "./tokens/typography.css";
+@import "./tokens/spacing.css";
+@import "./tokens/motion.css";
+@import "./tokens/base.css";

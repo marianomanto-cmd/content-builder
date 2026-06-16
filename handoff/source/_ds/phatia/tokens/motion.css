@@ -1,0 +1,77 @@
+/* ============================================================
+ * Phatia · Ads & Motion — MOTION TOKENS
+ * The signature movement is CONVERGENCE: dispersed signals spiral inward and
+ * ignite at the core. Everything decelerates as it reaches center. Nothing
+ * bounces past its mark — it settles, like matter falling into the vortex.
+ * ========================================================== */
+
+:root {
+  /* === EASING === */
+  /* brand ease — fast in, hard settle (vortex pop) */
+  --ease-converge: cubic-bezier(0.7, 0.02, 0.2, 1); /* @kind other */
+  /* camera push-in, reveals */
+  --ease-out:      cubic-bezier(0.22, 0.61, 0.36, 1); /* @kind other */
+  --ease-in-out:   cubic-bezier(0.45, 0, 0.2, 1); /* @kind other */
+  /* spins, marquees, particle drift */
+  --ease-linear:   linear; /* @kind other */
+
+  /* === DURATION · cadence === */
+  --dur-1: 120ms; /* @kind other */
+  --dur-2: 240ms; /* @kind other */
+  --dur-3: 450ms; /* @kind other */
+  --dur-4: 900ms; /* @kind other */
+  --dur-5: 1400ms; /* @kind other */
+
+  /* === VIDEO PACING (frames @ relative beats) ===
+   * hook 0–15% · tension 15–55% · resolution 55–85% · CTA+sting 85–100% */
+  --beat-hook: 0.15; /* @kind other */
+  --beat-tension: 0.55; /* @kind other */
+  --beat-resolve: 0.85; /* @kind other */
+}
+
+/* === SIGNATURE KEYFRAMES === */
+
+/* Core ignite — the insight pops into being. */
+@keyframes ph-ignite {
+  from { transform: scale(0.84); opacity: 0; }
+  to   { transform: none;        opacity: 1; }
+}
+
+/* Headline entrance — serif rises and settles. */
+@keyframes ph-rise {
+  from { transform: translateY(18px); opacity: 0; }
+  to   { transform: none;             opacity: 1; }
+}
+
+/* Data fill — bars/stats grow left-to-right. */
+@keyframes ph-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* Logo glow pulse — the mark breathes. */
+@keyframes ph-glow {
+  0%, 100% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent), 0 0 10px color-mix(in srgb, var(--accent) 38%, transparent); }
+  50%      { box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 48%, transparent), 0 0 22px color-mix(in srgb, var(--accent) 64%, transparent); }
+}
+
+/* Accretion streak sweep — the horizontal line across the core (logo motif). */
+@keyframes ph-streak {
+  0%   { opacity: 0; transform: scaleX(0.3); }
+  50%  { opacity: 1; }
+  100% { opacity: 0.85; transform: scaleX(1); }
+}
+
+/* Spin — slow rotation for vortex arms / transitions. */
+@keyframes ph-spin { to { transform: rotate(360deg); } }
+
+/* Caption pop — burned-in subtitle word reveal. */
+@keyframes ph-caption {
+  from { opacity: 0; transform: translateY(0.25em); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Utility entrance classes (gate on a data-active flag for decks/print). */
+.ph-anim-rise   { animation: ph-rise var(--dur-4) var(--ease-converge) both; }
+.ph-anim-ignite { animation: ph-ignite var(--dur-4) var(--ease-converge) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ph-anim-rise, .ph-anim-ignite { animation: none; }
+}

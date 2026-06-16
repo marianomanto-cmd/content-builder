@@ -1,0 +1,43 @@
+/* ============================================================
+ * Phatia · Ads & Motion — SPACING, RADIUS, SHADOW, GLASS
+ * 4pt scale. Dark-tuned depth (the light-mode shadows vanish on near-black,
+ * so ad surfaces lean on glow + hairline borders + heavy ambient shadow).
+ * ========================================================== */
+
+:root {
+  /* === SPACING · 4pt === */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+  --sp-12: 48px; --sp-16: 64px; --sp-20: 80px; --sp-24: 96px;
+
+  /* === RADIUS === */
+  --r-xs: 3px; --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-xl: 20px; --r-2xl: 28px;
+  --r-pill: 999px;
+
+  /* === SHADOWS · ambient depth on dark === */
+  --sh-1: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --sh-2: 0 2px 10px rgba(0, 0, 0, 0.50);
+  --sh-3: 0 10px 30px rgba(0, 0, 0, 0.55);
+  --sh-4: 0 20px 60px rgba(0, 0, 0, 0.65);
+  --sh-pop: 0 30px 80px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  /* === GLOW · the signature incandescence === */
+  --glow-accent: 0 0 24px color-mix(in srgb, var(--accent) 45%, transparent);
+  --glow-core:
+    0 0 48px color-mix(in srgb, var(--accent) 42%, transparent),
+    0 0 16px color-mix(in srgb, var(--accent) 60%, transparent);
+
+  /* === GLASS · frosted dark panel === */
+  --glass-fill: color-mix(in srgb, var(--surface) 64%, transparent); /* @kind color */
+  --glass-blur: blur(14px) saturate(1.08); /* @kind other */
+}
+
+/* Reusable glass plate (cards, lower-thirds, callouts). */
+.ph-glass {
+  background: var(--glass-fill);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}

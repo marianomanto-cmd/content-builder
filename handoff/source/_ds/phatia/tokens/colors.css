@@ -1,0 +1,71 @@
+/* ============================================================
+ * Phatia · Ads & Motion — COLOR TOKENS
+ * Extended from the live web app (app/globals.css). The ad system is
+ * DARK-FIRST: every social/video piece lives on the signature near-black
+ * plum canvas with one incandescent sangría accent. Gold is reserved for
+ * data only. Do not introduce a second chrome color.
+ * ========================================================== */
+
+:root {
+  /* === SIGNATURE SURFACES · near-black plum === */
+  --bg:         #0A0810;   /* the canvas — every ad starts here */
+  --surface:    #15131C;   /* cards, plates */
+  --surface-2:  #1C1924;   /* raised / nested surfaces */
+  --surface-3:  #241F2E;   /* chips, inputs on dark */
+
+  /* === INK · warm paper text on dark === */
+  --text:       #F4F1EA;   /* primary — headlines, body */
+  --text-muted: #8C8696;   /* secondary — leads, captions */
+  --text-faint: #5A5563;   /* tertiary — meta, timestamps */
+  --ink:        #F4F1EA;   /* alias */
+
+  /* === ACCENT · SANGRÍA (the brand's single hot color) === */
+  --accent:        #F23A5E;  /* high-sat sangría, pops on black */
+  --accent-ink:    #0A0810;  /* text/icon ON the accent */
+  --accent-soft:   #241019;  /* tinted fill behind accent content */
+  --accent-glow:   #FF7D9B;  /* brighter core/streak highlight */
+  --accent-deep:   #6B1A36;  /* burgundy — gradients, depth */
+  --accent-violet: #8A2A5F;  /* plum companion in aurora only */
+
+  /* === DATA / VIZ · warm gold (charts only, never chrome) === */
+  --viz:        #E0A458;   /* amber-gold for bars, stats, callouts */
+  --viz-soft:   #2A2014;   /* gold tint fill */
+  --viz-strong: #F0B86A;
+
+  /* === BORDERS · luminous hairlines on dark === */
+  --border:        rgba(244, 241, 234, 0.10);
+  --border-strong: rgba(244, 241, 234, 0.18);
+  --border-accent: color-mix(in srgb, var(--accent) 62%, transparent);
+
+  /* === NEUTRAL RAMP · warm stone (light-mode / print parity) === */
+  --paper: #FAF8F4;
+  --n50:   #F4F1EB;  --n100: #ECE7DD; --n200: #DDD6C7; --n300: #C7BDAB;
+  --n400:  #A89E8B;  --n500: #847A68;  --n600: #635A4B;
+  --n700:  #3D352A;  --n800: #2A241C;  --n900: #181410;
+
+  /* === SEMANTIC STATES (sentiment callouts) === */
+  --positive:      #4FD08A;   /* positive sentiment */
+  --positive-soft: #102619;
+  --neutral:       #8C8696;   /* neutral sentiment */
+  --negative:      #F23A5E;   /* negative sentiment = accent */
+  --negative-soft: #241019;
+  --warn:          #E0A458;
+
+  /* === PLATFORM TINTS · dataviz / chips only (never backgrounds) === */
+  --pf-instagram: #C13584;
+  --pf-tiktok:    #25F4EE;
+  --pf-youtube:   #FF0033;
+  --pf-x:         #E7E9EA;
+  --pf-reddit:    #FF4500;
+  --pf-facebook:  #1877F2;
+  --pf-web:       #8C8696;
+
+  /* === SIGNAL SERIES · monochrome competitors + sangría client === */
+  --series-1: #F4F1EA;
+  --series-2: #C7BDAB;
+  --series-3: #8C8696;
+  --series-4: #5A5563;
+  --series-client: #F23A5E;
+
+  color-scheme: dark;
+}
